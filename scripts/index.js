@@ -1,3 +1,4 @@
+const body = document.querySelector('.body');
 const profile = document.querySelector('.profile');
 const profilePopup = document.querySelector('.popup');
 
@@ -18,12 +19,14 @@ function openProfile(){
   nameField.value = profileInfo.name.textContent;
   descirptionField.value = profileInfo.description.textContent;
 
+  body.classList.add('body_no-scroll');
   profilePopup.classList.add('popup_opened');
 }
 
 
 function closeProfile() {
   profilePopup.classList.remove('popup_opened');
+  body.classList.remove('body_no-scroll');
 }
 
 
