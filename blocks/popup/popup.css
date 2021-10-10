@@ -10,15 +10,11 @@
   background-color: rgba(0, 0, 0, 0.5);;
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 1023px) {
   .popup {
-    padding: 100px 19px;
-    align-items: flex-start;
-  }
-}
-@media screen and (orientation: landscape) {
-  .popup {
-    padding-top: 100px;
+    padding: 0 19px;
     overflow: scroll;
   }
 }
+
+

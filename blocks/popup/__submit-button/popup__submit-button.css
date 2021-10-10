@@ -24,8 +24,6 @@
     opacity: 1;
     cursor: default;
   }
-}
-@media screen and (max-width: 767px) {
   .popup__submit-button {
     margin-top: 45px;
     min-height: 46px;
