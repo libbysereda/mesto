@@ -1,9 +1,27 @@
 .logo {
+  background: url('../../images/logo/logo_theme_dark.svg');
+  display: inline-block;
+  background-size: contain;
+  background-repeat: no-repeat;
+  text-decoration: none;
   width: 142px;
   height: 33px;
-  margin-bottom: 41px;
+  margin: 0 0 41px 0;
+  padding: 0;
+  opacity: 1;
+  transition: opacity .5s ease;
 }
 
+.logo:hover {
+  opacity: 0.6;
+}
+
+@media screen and (max-width: 1023px) {
+  .logo:hover {
+    opacity: 1;
+    cursor: default;
+  }
+}
 @media screen and (max-width: 767px) {
   .logo {
     width: 103px;
