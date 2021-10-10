@@ -15,6 +15,6 @@
 }
 
 .popup__input:focus {
-  border-color: rgba(0, 0, 0, 0.5);;
+  border-color: rgba(0, 0, 0, 0.5);
   outline: 0;
 }
