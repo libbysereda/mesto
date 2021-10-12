@@ -1,3 +1,5 @@
+// Get DOM elements for profile editing
+
 const profile = document.querySelector('.profile');
 const profilePopup = document.querySelector('.popup');
 
@@ -8,11 +10,14 @@ const profileForm = profilePopup.querySelector('.popup__form');
 const nameField = profilePopup.querySelector('.popup__input_type_name');
 const descirptionField = profilePopup.querySelector('.popup__input_type_description');
 
+// Get profile info
+
 let profileInfo = {
   "name": profile.querySelector('.profile__name'),
   "description": profile.querySelector('.profile__description')
 };
 
+// Popup handlers for profile editing
 
 function openProfile(){
   nameField.value = profileInfo.name.textContent;
@@ -21,11 +26,15 @@ function openProfile(){
   profilePopup.classList.add('popup_opened');
 }
 
-
 function closeProfile() {
   profilePopup.classList.remove('popup_opened');
 }
 
+profileEditButton.addEventListener('click', openProfile);
+profileCloseButton.addEventListener('click', closeProfile);
+
+/*
+**  Close popup when clicking outside the popup
 
 function closePopupHandler(event) {
   if (event.target.classList.contains('popup')) {
@@ -33,7 +42,11 @@ function closePopupHandler(event) {
   }
 }
 
+profilePopup.addEventListener('mouseup', closePopupHandler);
 
+*/
+
+// Submit new profile info
 function submitProfileForm(event) {
   event.preventDefault();
 
@@ -42,12 +55,6 @@ function submitProfileForm(event) {
 
   closeProfile();
 }
-
-
-profileEditButton.addEventListener('click', openProfile);
-
-profileCloseButton.addEventListener('click', closeProfile);
-profilePopup.addEventListener('mouseup', closePopupHandler);
 
 profileForm.addEventListener('submit', submitProfileForm);
 
