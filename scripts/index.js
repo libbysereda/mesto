@@ -207,9 +207,11 @@ function renderNewCard(card) {
   const newCard = cardTemplate.querySelector('.elements__item').cloneNode(true);
   const cardImage = newCard.querySelector('.elements__image');
   const deleteCardButton = newCard.querySelector('.elements__delete-button');
+  const likeCardButton = newCard.querySelector('.elements__like-button');
 
   cardImage.addEventListener('click', enlargeCard);
   deleteCardButton.addEventListener('click', deleteCard);
+  likeCardButton.addEventListener('click', likeCard);
 
   cardImage.src = card.link;
   newCard.querySelector('.elements__title').textContent = card.name;
@@ -229,6 +231,10 @@ function enlargeCard(evt) {
   addCloseButtonEventListener(newPopupCard);
   openPopup(newPopupCard);
 
+}
+
+function likeCard(evt) {
+  evt.target.classList.toggle('elements__like-button_type_active');
 }
 
 // Add new card button
