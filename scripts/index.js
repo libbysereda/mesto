@@ -140,7 +140,6 @@ function saveProfileInfo() {
 
 /*** CARDS ***/
 const cardTemplate = document.querySelector('#card').content;
-const popupCardTemplate = document.querySelector('#popup-image').content;
 const elementsList = document.querySelector('.elements__list');
 
 let cards = [
@@ -190,19 +189,6 @@ function renderNewCard(card) {
   newCard.querySelector('.elements__title').textContent = card.name;
 
   elementsList.prepend(newCard);
-
-  renderNewCardPopup(newCard, card);
-}
-
-function renderNewCardPopup(newCard, card) {
-  const newPopupCard = popupCardTemplate.querySelector('.popup').cloneNode(true);
-
-  addCloseButtonEventListener(newPopupCard);
-
-  newPopupCard.querySelector('.popup__image').src = card.link;
-  newPopupCard.querySelector('.popup__caption').textContent = card.name;
-
-  newCard.append(newPopupCard);
 }
 
 function addNewCard() {
@@ -234,9 +220,17 @@ function deleteCard(evt) {
   card.remove();
 }
 
+const popupCard = document.querySelector('.popup_type_image');
+addCloseButtonEventListener(popupCard);
+
 function enlargeCard(evt) {
-  const card = evt.target.parentNode;
-  openPopup(card.querySelector('.popup'));
+  let popupCardName = popupCard.querySelector('.popup__caption');
+  let popupCardImage = popupCard.querySelector('.popup__image');
+
+  popupCardName.textContent = evt.target.nextElementSibling.querySelector('.elements__title').textContent;
+  popupCardImage.src = evt.target.src;
+
+  openPopup(popupCard);
 }
 
 function likeCard(evt) {
