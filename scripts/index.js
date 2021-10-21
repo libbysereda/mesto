@@ -52,15 +52,15 @@ const popupParams = [
   }
 ];
 
-popupParams.forEach(item => {
+popupParams.forEach(popupItem => {
   const newPopup = popupTemplate.querySelector('.popup').cloneNode(true);
-  newPopup.classList.add(...item.classList);
-  newPopup.querySelector('.popup__title').textContent = item.title;
+  newPopup.classList.add(...popupItem.classList);
+  newPopup.querySelector('.popup__title').textContent = popupItem.title;
 
   const popupCloseButton = newPopup.querySelector('.popup__close-button');
   popupCloseButton.addEventListener('click', closePopup);
 
-  item.form.inputFields.forEach(input => {
+  popupItem.form.inputFields.forEach(input => {
     const newInput = document.createElement('input');
     newInput.classList.add(...input.classList);
     newInput.name = input.name;
@@ -73,7 +73,7 @@ popupParams.forEach(item => {
   body.append(newPopup);
 
   const popupForm = newPopup.querySelector('.popup__form');
-  popupForm.classList.add(...item.form.classList);
+  popupForm.classList.add(...popupItem.form.classList);
   popupForm.addEventListener('submit', submitPopupForm);
 
 });
@@ -120,14 +120,17 @@ profileEditButton.addEventListener('click', function() {
 });
 
 // Profile handlers
+const profileName = document.querySelector('.popup__input_type_profile-name');
+const profileDescription = document.querySelector('.popup__input_type_profile-description');
+
 function renderProfileInfo() {
-  document.querySelector('.popup__input_type_profile-name').value = profileInfo.name.textContent;
-  document.querySelector('.popup__input_type_profile-description').value = profileInfo.description.textContent;
+  profileName.value = profileInfo.name.textContent;
+  profileDescription.value = profileInfo.description.textContent;
 }
 
 function saveProfileInfo() {
-  profileInfo.name.textContent = document.querySelector('.popup__input_type_profile-name').value;
-  profileInfo.description.textContent = document.querySelector('.popup__input_type_profile-description').value;
+  profileInfo.name.textContent = profileName.value;
+  profileInfo.description.textContent = profileDescription.value;
 }
 
 
@@ -168,16 +171,19 @@ cards.forEach(card => renderNewCard(card));
 
 // cards handlers
 function addNewCard() {
+  const elementName = document.querySelector('.popup__input_type_element-name');
+  const elementLink = document.querySelector('.popup__input_type_element-link');
+
   const card = {
-    'name': document.querySelector('.popup__input_type_element-name').value,
-    'link': document.querySelector('.popup__input_type_element-link').value
+    'name': elementName.value,
+    'link': elementLink.value
   };
 
   cards.push(card);
   renderNewCard(card);
 
-  document.querySelector('.popup__input_type_element-name').value = '';
-  document.querySelector('.popup__input_type_element-link').value = '';
+  elementName.value = '';
+  elementLink.value = '';
 }
 
 function renderNewCard(card) {
@@ -188,9 +194,9 @@ function renderNewCard(card) {
 }
 
 // Add new card button
-const profileAddButton = profile.querySelector('.profile__add-button');
+const addNewCardButton = profile.querySelector('.profile__add-button');
 
-profileAddButton.addEventListener('click', function() {
+addNewCardButton.addEventListener('click', function() {
   const addPopup = document.querySelector('.popup_type_add-new-element');
   openPopup(addPopup);
 });
