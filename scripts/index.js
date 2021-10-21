@@ -1,5 +1,5 @@
 /*** POPUPS ***/
-const popupTemplate = document.querySelector('#popup-form').content;
+const popupFormTemplate = document.querySelector('#popup-form').content;
 const body = document.querySelector('.body');
 
 // render popups
@@ -53,12 +53,11 @@ const popupParams = [
 ];
 
 popupParams.forEach(popupItem => {
-  const newPopup = popupTemplate.querySelector('.popup').cloneNode(true);
+  const newPopup = popupFormTemplate.querySelector('.popup').cloneNode(true);
   newPopup.classList.add(...popupItem.classList);
   newPopup.querySelector('.popup__title').textContent = popupItem.title;
 
-  const popupCloseButton = newPopup.querySelector('.popup__close-button');
-  popupCloseButton.addEventListener('click', closePopup);
+  addCloseButtonEventListener(newPopup);
 
   popupItem.form.inputFields.forEach(input => {
     const newInput = document.createElement('input');
@@ -79,6 +78,11 @@ popupParams.forEach(popupItem => {
 });
 
 // Popup handlers
+function addCloseButtonEventListener(popup) {
+  const popupCloseButton = popup.querySelector('.popup__close-button');
+  popupCloseButton.addEventListener('click', closePopup);
+}
+
 function openPopup(popup) {
   popup.classList.add('popup_opened');
 }
@@ -135,8 +139,8 @@ function saveProfileInfo() {
 
 
 /*** CARDS ***/
-
 const cardTemplate = document.querySelector('#card').content;
+const popupCardTemplate = document.querySelector('#popup-image').content;
 const elementsList = document.querySelector('.elements__list');
 
 const cards = [
@@ -188,9 +192,28 @@ function addNewCard() {
 
 function renderNewCard(card) {
   const newCard = cardTemplate.querySelector('.elements__item').cloneNode(true);
-  newCard.querySelector('.elements__image').src = card.link;
+  const cardImage = newCard.querySelector('.elements__image');
+
+  cardImage.addEventListener('click', enlargeCard);
+
+  cardImage.src = card.link;
   newCard.querySelector('.elements__title').textContent = card.name;
   elementsList.prepend(newCard);
+}
+
+function enlargeCard(evt) {
+  const newPopupCard = popupCardTemplate.querySelector('.popup').cloneNode(true);
+  const src = evt.target.src;
+  const caption = evt.target.nextElementSibling.querySelector('.elements__title').textContent;
+
+  newPopupCard.querySelector('.popup__image').src = src;
+  newPopupCard.querySelector('.popup__caption').textContent = caption;
+
+  body.append(newPopupCard);
+
+  addCloseButtonEventListener(newPopupCard);
+  openPopup(newPopupCard);
+
 }
 
 // Add new card button
