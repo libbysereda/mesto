@@ -143,7 +143,7 @@ const cardTemplate = document.querySelector('#card').content;
 const popupCardTemplate = document.querySelector('#popup-image').content;
 const elementsList = document.querySelector('.elements__list');
 
-const cards = [
+let cards = [
   {
     name: 'Архыз',
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
@@ -190,11 +190,26 @@ function addNewCard() {
   elementLink.value = '';
 }
 
+function deleteCard(evt) {
+  const card = evt.target.closest('.elements__item');
+  const cardName = card.querySelector('.elements__title').textContent;
+
+  // update cards array
+  cards = cards.filter(function(card) {
+    return card.name != cardName;
+  });
+
+  // remove card element from DOM
+  card.remove();
+}
+
 function renderNewCard(card) {
   const newCard = cardTemplate.querySelector('.elements__item').cloneNode(true);
   const cardImage = newCard.querySelector('.elements__image');
+  const deleteCardButton = newCard.querySelector('.elements__delete-button');
 
   cardImage.addEventListener('click', enlargeCard);
+  deleteCardButton.addEventListener('click', deleteCard);
 
   cardImage.src = card.link;
   newCard.querySelector('.elements__title').textContent = card.name;
@@ -223,7 +238,6 @@ addNewCardButton.addEventListener('click', function() {
   const addPopup = document.querySelector('.popup_type_add-new-element');
   openPopup(addPopup);
 });
-
 
 
 
