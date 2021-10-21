@@ -22,3 +22,24 @@
     cursor: default;
   }
 }
+
+.elements__delete-button {
+  background: url('../../../images/controls/delete_btn_icon.svg');
+  background-size: 18px 19px;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: none;
+  padding: 0;
+  width: 18px;
+  height: 19px;
+  opacity: 1;
+  transition: opacity .5s ease;
+  cursor: pointer;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+}
+
+.elements__delete-button:hover {
+  opacity: 0.6;
+}
