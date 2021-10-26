@@ -39,28 +39,29 @@
       <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
     </footer>
 
-    <template id="card">
-      <li class="elements__item">
-        <button class="elements__delete-button" type="button" aria-label="Удалить"></button>
-        <img class="elements__image">
-        <div class="elements__description">
-          <h2 class="elements__title"></h2>
-          <button class="elements__like-button" type="button" aria-label="Нравится"></button>
-        </div>
-      </li>
-    </template>
-
-    <template id="popup-form">
-      <div class="popup">
-        <div class="popup__container popup__container_type_form">
-          <button class="popup__close-button" type="button" aria-label="Закрыть"></button>
-          <h2 class="popup__title"></h2>
-          <form class="popup__form">
-            <button class="popup__submit-button" type="submit">Сохранить</button>
-          </form>
-        </div>
+    <div class="popup popup_type_edit-profile">
+      <div class="popup__container popup__container_type_form">
+        <button class="popup__close-button" type="button" aria-label="Закрыть"></button>
+        <h2 class="popup__title">Редактировать профиль</h2>
+        <form class="popup__form popup__form_type_edit-profile" name="profileEditForm">
+          <input class="popup__input popup__input_type_profile-name" type="text" name="profileName" required placeholder="Имя">
+          <input class="popup__input popup__input_type_profile-description" type="text" name="profileDescription" placeholder="О себе">
+          <button class="popup__submit-button" type="submit">Сохранить</button>
+        </form>
       </div>
-    </template>
+    </div>
+
+    <div class="popup popup_type_add-new-element">
+      <div class="popup__container popup__container_type_form">
+        <button class="popup__close-button" type="button" aria-label="Закрыть"></button>
+        <h2 class="popup__title">Новое место</h2>
+        <form class="popup__form popup__form_type_add-new-element" name="elementAddForm">
+          <input class="popup__input popup__input_type_element-name" type="text" name="elementName" required placeholder="Название">
+          <input class="popup__input popup__input_type_element-link" type="url" name="elementLink" placeholder="Ссылка на картинку">
+          <button class="popup__submit-button" type="submit">Сохранить</button>
+        </form>
+      </div>
+    </div>
 
     <div class="popup popup_type_image">
       <div class="popup__container">
@@ -71,6 +72,17 @@
         </figure>
       </div>
     </div>
+
+    <template id="card">
+      <li class="elements__item">
+        <button class="elements__delete-button" type="button" aria-label="Удалить"></button>
+        <img class="elements__image">
+        <div class="elements__description">
+          <h2 class="elements__title"></h2>
+          <button class="elements__like-button" type="button" aria-label="Нравится"></button>
+        </div>
+      </li>
+    </template>
 
     <script src="./scripts/index.js"></script>
   </body>
