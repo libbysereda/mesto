@@ -43,9 +43,11 @@
       <div class="popup__container popup__container_type_form">
         <button class="popup__close-button" type="button" aria-label="Закрыть"></button>
         <h2 class="popup__title">Редактировать профиль</h2>
-        <form class="popup__form popup__form_type_edit-profile" name="profileEditForm">
-          <input class="popup__input popup__input_type_profile-name" type="text" name="profileName" required placeholder="Имя">
-          <input class="popup__input popup__input_type_profile-description" type="text" name="profileDescription" placeholder="О себе">
+        <form novalidate class="popup__form popup__form_type_edit-profile" name="profileEditForm">
+          <input id="name-input" class="popup__input popup__input_type_profile-name" type="text" name="profileName" required minlength="2" maxlength="40" placeholder="Имя">
+          <span class="name-input-error popup__input-error"></span>
+          <input id="description-input" class="popup__input popup__input_type_profile-description" type="text" name="profileDescription" required minlength="2" maxlength="200" placeholder="О себе">
+          <span class="description-input-error popup__input-error"></span>
           <button class="popup__submit-button" type="submit">Сохранить</button>
         </form>
       </div>
@@ -55,9 +57,11 @@
       <div class="popup__container popup__container_type_form">
         <button class="popup__close-button" type="button" aria-label="Закрыть"></button>
         <h2 class="popup__title">Новое место</h2>
-        <form class="popup__form popup__form_type_add-new-element" name="elementAddForm">
-          <input class="popup__input popup__input_type_element-name" type="text" name="elementName" required placeholder="Название">
-          <input class="popup__input popup__input_type_element-link" type="url" name="elementLink" placeholder="Ссылка на картинку">
+        <form novalidate class="popup__form popup__form_type_add-new-element" name="elementAddForm">
+          <input id="card-name-input" class="popup__input popup__input_type_element-name" type="text" name="elementName" required minlength="2" maxlength="30" placeholder="Название">
+          <span class="card-name-input-error popup__input-error"></span>
+          <input id="card-link-input" class="popup__input popup__input_type_element-link" type="url" name="elementLink" required placeholder="Ссылка на картинку">
+          <span class="card-link-input-error popup__input-error"></span>
           <button class="popup__submit-button" type="submit">Сохранить</button>
         </form>
       </div>
