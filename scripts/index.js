@@ -58,21 +58,30 @@ const profileInfo = {
 // Popup handlers
 function openPopup(popup) {
   popup.classList.add('popup_opened');
+  document.addEventListener('keydown', hotKeysPopupHandler);
 }
 
-function closePopup(evt) {
-  const openedPopup = evt.target.closest('.popup');
+function closePopup() {
+  const openedPopup = document.querySelector('.popup_opened');
   openedPopup.classList.remove('popup_opened');
 
   const form = openedPopup.querySelector('.popup__form');
   if (form) {
     resetForm(form, validationConfig);
   }
+
+  document.removeEventListener('keydown', hotKeysPopupHandler);
 }
 
 function closePopupHandler(evt) {
   if (evt.target.classList.contains('popup')) {
-    closePopup(evt);
+    closePopup();
+  }
+}
+
+function hotKeysPopupHandler(evt) {
+  if (evt.key === 'Escape') {
+    closePopup();
   }
 }
 
@@ -80,7 +89,8 @@ function closePopupHandler(evt) {
 function saveProfileInfo(evt) {
   profileInfo.name.textContent = profileName.value;
   profileInfo.description.textContent = profileDescription.value;
-  closePopup(evt);
+
+  closePopup();
 }
 
 function addNewCard(evt) {
@@ -90,7 +100,7 @@ function addNewCard(evt) {
   };
 
   renderNewCard(card);
-  closePopup(evt);
+  closePopup();
 }
 
 // Profile handlers
