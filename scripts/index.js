@@ -70,6 +70,12 @@ function closePopup(evt) {
   }
 }
 
+function closePopupHandler(evt) {
+  if (evt.target.classList.contains('popup')) {
+    closePopup(evt);
+  }
+}
+
 // Form handlers
 function saveProfileInfo(evt) {
   profileInfo.name.textContent = profileName.value;
@@ -159,6 +165,7 @@ addNewCardButton.addEventListener('click', function() {
 
 // Popup listeners
 popups.forEach(popup => {
+  popup.addEventListener('mouseup', closePopupHandler);
   const popupCloseButton = popup.querySelector('.popup__close-button');
   popupCloseButton.addEventListener('click', closePopup);
 })
