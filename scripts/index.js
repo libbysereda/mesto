@@ -44,16 +44,26 @@ const elementLink = document.querySelector('.popup__input_type_element-link');
 
 const profile = document.querySelector('.profile');
 
-const profileInfo = {
-  "name": profile.querySelector('.profile__name'),
-  "description": profile.querySelector('.profile__description')
-};
-
 const profileEditButton = profile.querySelector('.profile__edit-button');
 const addNewCardButton = profile.querySelector('.profile__add-button');
 
 const cardTemplate = document.querySelector('#card').content;
 const elementsList = document.querySelector('.elements__list');
+
+const profileInfo = {
+  name: profile.querySelector('.profile__name'),
+  description: profile.querySelector('.profile__description')
+};
+
+// forms validation
+const validationConfig = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__submit-button',
+  errorMessageClass: 'popup__input-error_active',
+  errorInputClass: 'popup__input_type_error',
+  submitButtonDisabledClass: 'popup__submit-button_inactive'
+};
 
 // Popup handlers
 function openPopup(popup) {
@@ -64,47 +74,40 @@ function closePopup(evt) {
   const openedPopup = evt.target.closest('.popup');
   openedPopup.classList.remove('popup_opened');
 
-  resetPopup(openedPopup);
+  resetForm(openedPopup, validationConfig);
 }
 
-function resetPopup(popup) {
-  const popupForm = popup.querySelector('.popup__form');
-  const popupInputs = Array.from(popup.querySelectorAll('.popup__input'));
-  const submitButton = popupForm.querySelector('.popup__submit-button');
+function resetForm(popup, config) {
+  const form = popup.querySelector(config.formSelector);
+  form.reset();
 
-  resetPopupErrors(popupInputs, popupForm);
-  resetPopupForm(popupForm);
-  //toggleButtonState(popupInputs, submitButton);
+  const inputs = [...popup.querySelectorAll(config.inputSelector)];
+
+  resetInputsErrors(inputs, form, config);
+
+  setSubmitButtonState(form, config);
 }
 
-function resetPopupErrors(popupInputs, popupForm) {
-  popupInputs.forEach(input => {
-    hideInputError(popupForm, input);
-  });
-}
-
-function resetPopupForm(popupForm) {
-  popupForm.reset();
+function resetInputsErrors(inputs, form, config) {
+  inputs.forEach(input => {
+    hideInputError(input, form, config);
+  })
 }
 
 // Form handlers
 function saveProfileInfo(evt) {
-  evt.preventDefault();
   profileInfo.name.textContent = profileName.value;
   profileInfo.description.textContent = profileDescription.value;
   closePopup(evt);
 }
 
 function addNewCard(evt) {
-  evt.preventDefault();
-
   const card = {
     'name': elementName.value,
     'link': elementLink.value
   };
 
   renderNewCard(card);
-  resetPopupForm(addNewCardForm);
   closePopup(evt);
 }
 
@@ -112,6 +115,7 @@ function addNewCard(evt) {
 function renderProfileInfo() {
   profileName.value = profileInfo.name.textContent;
   profileDescription.value = profileInfo.description.textContent;
+  setSubmitButtonState(editProfilePopupForm, validationConfig);
 }
 
 // Cards handlers
@@ -158,63 +162,62 @@ initialCards.forEach(card => {
 });
 
 // Forms validation
-function showInputError(form, input, errorMessage) {
-  input.classList.add('popup__input_type_error');
-  const error = form.querySelector(`.${input.id}-error`);
-  error.textContent = errorMessage;
-  error.classList.add('popup__input-error_active');
+function validateForms(config) {
+  const forms = [...document.querySelectorAll(config.formSelector)];
+
+  forms.forEach(form => setFormListeners(form, config));
 }
 
-function hideInputError(form, input) {
-  input.classList.remove('popup__input_type_error');
-  const error = form.querySelector(`.${input.id}-error`);
-  error.classList.remove('popup__input-error_active');
-  error.textContent = '';
-}
+function setFormListeners(form, config) {
+  form.addEventListener('submit', handleSubmit);
 
-function checkInputValidity(input, form) {
-  if (!input.validity.valid) {
-    showInputError(form, input, input.validationMessage);
-  } else {
-    hideInputError(form, input, input.validationMessage);
-  }
-}
+  form.addEventListener('input', () => {
+    setSubmitButtonState(form, config);
+  });
 
-function hasInvalidInputs(inputs) {
-  return inputs.some(input => !input.validity.valid);
-}
-
-function toggleButtonState(inputs, button) {
-  if (hasInvalidInputs(inputs)) {
-    button.classList.add('popup__submit-button_inactive');
-  } else {
-    button.classList.remove('popup__submit-button_inactive');
-  }
-}
-
-function setFormEventListeners(form) {
-  const inputs = Array.from(form.querySelectorAll('.popup__input'));
-  const submitButton = form.querySelector('.popup__submit-button');
-
-  //toggleButtonState(inputs, submitButton);
+  const inputs = [...form.querySelectorAll(config.inputSelector)];
 
   inputs.forEach(input => {
-    input.addEventListener('input', function() {
-      checkInputValidity(input, form);
-      //toggleButtonState(inputs, submitButton);
-    });
+    input.addEventListener('input', () => isInputValid(input, form, config));
   });
-};
 
-function enableValidation() {
-  const forms = Array.from(document.querySelectorAll('.popup__form'));
-  forms.forEach(form => {
-    setFormEventListeners(form);
-  });
-};
+  setSubmitButtonState(form, config);
+}
+
+function handleSubmit(evt) {
+  evt.preventDefault();
+}
+
+function isInputValid(input, form, config) {
+  if (input.validity.valid) {
+    hideInputError(input, form, config);
+  } else {
+    showInputError(input, form, config);
+  }
+}
+
+function hideInputError(input, form, config) {
+  const errorMessage = form.querySelector(`#${input.id}-error`);
+  errorMessage.textContent = '';
+  errorMessage.classList.remove(config.errorMessageClass);
+  input.classList.remove(config.errorInputClass);
+}
+
+function showInputError(input, form, config) {
+  const errorMessage = form.querySelector(`#${input.id}-error`);
+  errorMessage.textContent = input.validationMessage;
+  errorMessage.classList.add(config.errorMessageClass);
+  input.classList.add(config.errorInputClass);
+}
+
+function setSubmitButtonState(form, config) {
+  const submitButton = form.querySelector(config.submitButtonSelector);
+  submitButton.disabled = !form.checkValidity();
+  submitButton.classList.toggle(config.submitButtonDisabledClass, !form.checkValidity());
+}
 
 // Validate forms
-enableValidation();
+validateForms(validationConfig);
 
 // Buttons listeners
 profileEditButton.addEventListener('click', function() {

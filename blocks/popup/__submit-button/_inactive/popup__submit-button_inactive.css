@@ -4,4 +4,5 @@
 
 .popup__submit-button_inactive:hover {
   opacity: 0.2;
+  cursor: default;
 }
