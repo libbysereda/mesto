@@ -74,7 +74,10 @@ function closePopup(evt) {
   const openedPopup = evt.target.closest('.popup');
   openedPopup.classList.remove('popup_opened');
 
-  resetForm(openedPopup, validationConfig);
+  const hasForm = openedPopup.querySelector(validationConfig.formSelector);
+  if (hasForm) {
+    resetForm(openedPopup, validationConfig);
+  }
 }
 
 function resetForm(popup, config) {
