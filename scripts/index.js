@@ -58,29 +58,24 @@ const profileInfo = {
 // Popup handlers
 function openPopup(popup) {
   popup.classList.add('popup_opened');
-  document.addEventListener('keydown', (evt) => hotKeysPopupHandler(evt, popup));
+  document.addEventListener('keydown', closePopupEscHandler);
 }
 
-function closePopup(popup) {
-  popup.classList.remove('popup_opened');
-
-  const form = popup.querySelector('.popup__form');
-  if (form) {
-    resetValidation(form, validationConfig);
-  }
-
-  document.removeEventListener('keydown', hotKeysPopupHandler);
+function closePopup() {
+  const openedPopup = document.querySelector('.popup_opened');
+  openedPopup.classList.remove('popup_opened');
+  document.removeEventListener('keydown', closePopupEscHandler);
 }
 
-function closePopupHandler(evt, popup) {
+function closePopupHandler(evt) {
   if (evt.target.classList.contains('popup')) {
-    closePopup(popup);
+    closePopup();
   }
 }
 
-function hotKeysPopupHandler(evt, popup) {
+function closePopupEscHandler(evt) {
   if (evt.key === 'Escape') {
-    closePopup(popup);
+    closePopup();
   }
 }
 
@@ -89,8 +84,7 @@ function saveProfileInfo(evt) {
   profileInfo.name.textContent = profileName.value;
   profileInfo.description.textContent = profileDescription.value;
 
-  const popup = evt.target.closest('.popup');
-  closePopup(popup);
+  closePopup();
 }
 
 function addNewCard(evt) {
@@ -100,16 +94,13 @@ function addNewCard(evt) {
   };
 
   renderNewCard(card);
-
-  const popup = evt.target.closest('.popup');
-  closePopup(popup);
+  closePopup();
 }
 
 // Profile handlers
 function renderProfileInfo() {
   profileName.value = profileInfo.name.textContent;
   profileDescription.value = profileInfo.description.textContent;
-  setSubmitButtonState(editProfilePopupForm, validationConfig);
 }
 
 // Cards handlers
@@ -157,19 +148,23 @@ initialCards.forEach(card => {
 
 // Buttons listeners
 profileEditButton.addEventListener('click', function() {
+  resetValidation(editProfilePopupForm, validationConfig);
   renderProfileInfo();
+  setSubmitButtonState(editProfilePopupForm, validationConfig);
   openPopup(profilePopup);
 });
 
 addNewCardButton.addEventListener('click', function() {
+  resetValidation(addNewCardForm, validationConfig);
   openPopup(addPopup);
 });
 
 // Popup listeners
 popups.forEach(popup => {
-  popup.addEventListener('mouseup', (evt) => closePopupHandler(evt, popup));
+  popup.addEventListener('mouseup', closePopupHandler);
   const popupCloseButton = popup.querySelector('.popup__close-button');
-  popupCloseButton.addEventListener('click', () => closePopup(popup));
+  popupCloseButton.addEventListener('click', closePopup);
+
 })
 
 // Forms listeners
