@@ -58,6 +58,10 @@ const profileInfo = {
 // Popup handlers
 function openPopup(popup) {
   popup.classList.add('popup_opened');
+
+  const form = popup.querySelector('.popup__form');
+  setSubmitButtonState(form, validationConfig);
+
   document.addEventListener('keydown', hotKeysPopupHandler);
 }
 
@@ -107,7 +111,6 @@ function addNewCard(evt) {
 function renderProfileInfo() {
   profileName.value = profileInfo.name.textContent;
   profileDescription.value = profileInfo.description.textContent;
-  setSubmitButtonState(editProfilePopupForm, validationConfig);
 }
 
 // Cards handlers
