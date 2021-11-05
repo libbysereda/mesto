@@ -58,22 +58,22 @@ const profileInfo = {
 // Popup handlers
 function openPopup(popup) {
   popup.classList.add('popup_opened');
-  document.addEventListener('keydown', closePopupEscHandler);
+  document.addEventListener('keydown', closeByEscapeHandler);
 }
 
 function closePopup() {
   const openedPopup = document.querySelector('.popup_opened');
   openedPopup.classList.remove('popup_opened');
-  document.removeEventListener('keydown', closePopupEscHandler);
+  document.removeEventListener('keydown', closeByEscapeHandler);
 }
 
-function closePopupHandler(evt) {
+function closeByClickHandler(evt) {
   if (evt.target.classList.contains('popup')) {
     closePopup();
   }
 }
 
-function closePopupEscHandler(evt) {
+function closeByEscapeHandler(evt) {
   if (evt.key === 'Escape') {
     closePopup();
   }
@@ -161,7 +161,7 @@ addNewCardButton.addEventListener('click', function() {
 
 // Popup listeners
 popups.forEach(popup => {
-  popup.addEventListener('mouseup', closePopupHandler);
+  popup.addEventListener('mouseup', closeByClickHandler);
   const popupCloseButton = popup.querySelector('.popup__close-button');
   popupCloseButton.addEventListener('click', closePopup);
 
