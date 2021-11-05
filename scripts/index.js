@@ -66,7 +66,7 @@ function closePopup(popup) {
 
   const form = popup.querySelector('.popup__form');
   if (form) {
-    resetForm(form, validationConfig);
+    resetValidation(form, validationConfig);
   }
 
   document.removeEventListener('keydown', hotKeysPopupHandler);

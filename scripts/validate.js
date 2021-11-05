@@ -8,7 +8,7 @@ const validationConfig = {
 };
 
 // Reset forms
-function resetForm(form, config) {
+function resetValidation(form, config) {
   form.reset();
 
   const inputs = [...form.querySelectorAll(config.inputSelector)];
