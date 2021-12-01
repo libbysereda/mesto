@@ -1,29 +1,5 @@
-const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
+import { initialCards } from './initialCards.js';
+console.log(initialCards);
 
 const popups = document.querySelectorAll('.popup');
 
@@ -47,7 +23,6 @@ const profile = document.querySelector('.profile');
 const profileEditButton = profile.querySelector('.profile__edit-button');
 const addNewCardButton = profile.querySelector('.profile__add-button');
 
-const cardTemplate = document.querySelector('#card').content;
 const elementsList = document.querySelector('.elements__list');
 
 const profileInfo = {
@@ -103,42 +78,76 @@ function renderProfileInfo() {
   profileDescription.value = profileInfo.description.textContent;
 }
 
+class Card {
+  constructor(data, cardSelector) {
+    this._name = data.name;
+    this._link = data.link;
+    this._cardSelector = cardSelector;
+  }
+
+  _getTemplate() {
+    const cardElement = document
+      .querySelector(this._cardSelector)
+      .content
+      .querySelector('.elements__item')
+      .cloneNode(true);
+
+      return cardElement;
+  }
+
+  _setEventListeners() {
+    this._cardImage.addEventListener('click', () => {
+      this._enlargeCard();
+    });
+
+    this._card.querySelector('.elements__delete-button').addEventListener('click', () => {
+      this._deleteCard();
+    });
+
+    this._card.querySelector('.elements__like-button').addEventListener('click', (evt) => {
+      this._likeCard(evt);
+    });
+  }
+
+  _enlargeCard() {
+    popupCardName.textContent = this._name;
+    popupCardImage.src = this._link;
+    popupCardImage.alt = this._name;
+
+    openPopup(popupCard);
+  }
+
+  _deleteCard() {
+    this._card.remove();
+  }
+
+  _likeCard(evt) {
+    evt.target.classList.toggle('elements__like-button_type_active');
+  }
+
+  createCard() {
+    this._card = this._getTemplate();
+
+    this._cardImage = this._card.querySelector('.elements__image');
+    this._cardTitle = this._card.querySelector('.elements__title');
+
+    this._cardImage.src = this._link;
+    this._cardImage.alt = this._name;
+    this._cardTitle.textContent = this._name;
+
+    this._setEventListeners();
+
+    return this._card;
+  }
+}
+
+
 // Cards handlers
-function createCard(card) {
-  const newCard = cardTemplate.querySelector('.elements__item').cloneNode(true);
-  const cardImage = newCard.querySelector('.elements__image');
-
-  cardImage.src = card.link;
-  cardImage.alt = card.name;
-  newCard.querySelector('.elements__title').textContent = card.name;
-
-  cardImage.addEventListener('click', enlargeCard);
-  newCard.querySelector('.elements__delete-button').addEventListener('click', deleteCard);
-  newCard.querySelector('.elements__like-button').addEventListener('click', likeCard);
-
-  return newCard;
-}
-
 function renderNewCard(card) {
-  const newCard = createCard(card);
-  elementsList.prepend(newCard);
-}
+  const newCard = new Card(card, '#card');
+  const cardElement = newCard.createCard();
 
-function deleteCard(evt) {
-  const card = evt.target.closest('.elements__item');
-  card.remove();
-}
-
-function enlargeCard(evt) {
-  popupCardName.textContent = evt.target.nextElementSibling.querySelector('.elements__title').textContent;
-  popupCardImage.src = evt.target.src;
-  popupCardImage.alt = popupCardName.textContent;
-
-  openPopup(popupCard);
-}
-
-function likeCard(evt) {
-  evt.target.classList.toggle('elements__like-button_type_active');
+  elementsList.prepend(cardElement);
 }
 
 // Render initial cards
