@@ -4,6 +4,7 @@ export default class FormValidator {
     this._formElement = formElement;
     this._config = config;
     this._inputs = [...this._formElement.querySelectorAll(this._config.inputSelector)];
+    this._submitButton = this._formElement.querySelector(this._config.submitButtonSelector);
   }
 
   _handleSubmit(evt) {
@@ -55,7 +56,6 @@ export default class FormValidator {
   }
 
   setSubmitButtonState() {
-    this._submitButton = this._formElement.querySelector(this._config.submitButtonSelector);
     this._submitButton.disabled = !this._formElement.checkValidity();
     this._submitButton.classList.toggle(this._config.submitButtonDisabledClass, !this._formElement.checkValidity());
   }
