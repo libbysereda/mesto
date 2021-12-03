@@ -1,5 +1,6 @@
 import { initialCards } from './initialCards.js';
 import { validationConfig } from './validationConfig.js';
+import { openPopup, closePopup, closeByClickHandler } from './utils.js';
 
 import Card from './Card.js';
 import FormValidator from './FormValidator.js';
@@ -8,9 +9,6 @@ const popups = document.querySelectorAll('.popup');
 
 const profilePopup = document.querySelector('.popup_type_edit-profile');
 const addPopup = document.querySelector('.popup_type_add-new-element');
-const popupCard = document.querySelector('.popup_type_image');
-const popupCardName = popupCard.querySelector('.popup__caption');
-const popupCardImage = popupCard.querySelector('.popup__image');
 
 const editProfilePopupForm = document.querySelector('.popup__form_type_edit-profile');
 const addNewCardForm = document.querySelector('.popup__form_type_add-new-element');
@@ -32,30 +30,6 @@ const profileInfo = {
   name: profile.querySelector('.profile__name'),
   description: profile.querySelector('.profile__description')
 };
-
-// Popup handlers
-export function openPopup(popup) {
-  popup.classList.add('popup_opened');
-  document.addEventListener('keydown', closeByEscapeHandler);
-}
-
-function closePopup() {
-  const openedPopup = document.querySelector('.popup_opened');
-  openedPopup.classList.remove('popup_opened');
-  document.removeEventListener('keydown', closeByEscapeHandler);
-}
-
-function closeByClickHandler(evt) {
-  if (evt.target.classList.contains('popup')) {
-    closePopup();
-  }
-}
-
-function closeByEscapeHandler(evt) {
-  if (evt.key === 'Escape') {
-    closePopup();
-  }
-}
 
 // Form handlers
 function saveProfileInfo(evt) {
@@ -123,5 +97,3 @@ const addFormValidator = new FormValidator(validationConfig, addNewCardForm);
 
 editFormValidator.enableValidation();
 addFormValidator.enableValidation();
-
-export {popupCard, popupCardName, popupCardImage};
