@@ -1,13 +1,16 @@
 import { initialCards } from './initialCards.js';
+import { validationConfig } from './validationConfig.js';
+
 import Card from './Card.js';
+import FormValidator from './FormValidator.js';
 
 const popups = document.querySelectorAll('.popup');
 
 const profilePopup = document.querySelector('.popup_type_edit-profile');
 const addPopup = document.querySelector('.popup_type_add-new-element');
-export const popupCard = document.querySelector('.popup_type_image');
-export const popupCardName = popupCard.querySelector('.popup__caption');
-export const popupCardImage = popupCard.querySelector('.popup__image');
+const popupCard = document.querySelector('.popup_type_image');
+const popupCardName = popupCard.querySelector('.popup__caption');
+const popupCardImage = popupCard.querySelector('.popup__image');
 
 const editProfilePopupForm = document.querySelector('.popup__form_type_edit-profile');
 const addNewCardForm = document.querySelector('.popup__form_type_add-new-element');
@@ -93,14 +96,14 @@ initialCards.forEach(card => {
 
 // Buttons listeners
 profileEditButton.addEventListener('click', function() {
-  resetValidation(editProfilePopupForm, validationConfig);
+  editFormValidation.resetValidation();
   renderProfileInfo();
-  setSubmitButtonState(editProfilePopupForm, validationConfig);
+  editFormValidation.setSubmitButtonState();
   openPopup(profilePopup);
 });
 
 addNewCardButton.addEventListener('click', function() {
-  resetValidation(addNewCardForm, validationConfig);
+  addFormValidation.resetValidation();
   openPopup(addPopup);
 });
 
@@ -109,12 +112,16 @@ popups.forEach(popup => {
   popup.addEventListener('mouseup', closeByClickHandler);
   const popupCloseButton = popup.querySelector('.popup__close-button');
   popupCloseButton.addEventListener('click', closePopup);
-
 })
 
 // Forms listeners
 editProfilePopupForm.addEventListener('submit', saveProfileInfo);
 addNewCardForm.addEventListener('submit', addNewCard);
 
+const editFormValidation = new FormValidator(validationConfig, editProfilePopupForm);
+const addFormValidation = new FormValidator(validationConfig, addNewCardForm);
 
+editFormValidation.enableValidation();
+addFormValidation.enableValidation();
 
+export {popupCard, popupCardName, popupCardImage};

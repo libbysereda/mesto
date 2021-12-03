@@ -1,6 +1,7 @@
 import { popupCard, popupCardImage, popupCardName, openPopup } from "./index.js";
 
 export default class Card {
+
   constructor(data, cardSelector) {
     this._name = data.name;
     this._link = data.link;
@@ -61,4 +62,5 @@ export default class Card {
 
     return this._card;
   }
+
 }
