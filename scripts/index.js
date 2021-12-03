@@ -96,14 +96,14 @@ initialCards.forEach(card => {
 
 // Buttons listeners
 profileEditButton.addEventListener('click', function() {
-  editFormValidation.resetValidation();
+  editFormValidator.resetValidation();
   renderProfileInfo();
-  editFormValidation.setSubmitButtonState();
+  editFormValidator.setSubmitButtonState();
   openPopup(profilePopup);
 });
 
 addNewCardButton.addEventListener('click', function() {
-  addFormValidation.resetValidation();
+  addFormValidator.resetValidation();
   openPopup(addPopup);
 });
 
@@ -118,10 +118,10 @@ popups.forEach(popup => {
 editProfilePopupForm.addEventListener('submit', saveProfileInfo);
 addNewCardForm.addEventListener('submit', addNewCard);
 
-const editFormValidation = new FormValidator(validationConfig, editProfilePopupForm);
-const addFormValidation = new FormValidator(validationConfig, addNewCardForm);
+const editFormValidator = new FormValidator(validationConfig, editProfilePopupForm);
+const addFormValidator = new FormValidator(validationConfig, addNewCardForm);
 
-editFormValidation.enableValidation();
-addFormValidation.enableValidation();
+editFormValidator.enableValidation();
+addFormValidator.enableValidation();
 
 export {popupCard, popupCardName, popupCardImage};
